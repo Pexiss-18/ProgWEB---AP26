@@ -18,3 +18,39 @@ schema: spec-driven
 #       - Always include a "Non-goals" section
 #     tasks:
 #       - Break tasks into chunks of max 2 hours
+
+context: | 
+  Por favor, responda em Português-BR.
+  
+  #TECH STACK - BACKEND
+  -Framework: FastAPI
+  -Banco de dados: PostgreSQL
+  -Autenticação: JWT
+  -ORM: SQLAlchemy
+  -Validação: Pydantic
+  
+  #TECH STACK - FRONTEND
+  -Framework: Next.js
+  -Linguagem: TypeScript
+  -Estilo: TailwindCSS
+  -Componentes: Shadcn/UI
+
+  #Domain
+  -Sistema de agendamento de serviços
+  -Sistema de login/senha para admin
+
+
+rules:
+  proposal: |
+    - Toda nova proposta deve especificar claramente os objetivos, não-objetivos e decisões que serão tomadas.
+
+  specs: |
+    - Use sempre o formato Given/When/Then (Dado/Quando/Então) para descrever os cenários.
+
+  design: |
+    - Backend: Detalhe os modelos do banco de dados (PostgreSQL) e como o schema do FastAPI/Pydantic garante o Type-safety ponta a ponta.
+    - Frontend: Detalhe os componentes do shadcn/ui que serão utilizados e como o Next.js será utilizado para criar o dashboard.
+
+  tasks: |
+    - Sempre inclua tarefas que viabilizem o TDD (Desenvolvimento orientado por testes), ou seja, primeiro deve-se criar o teste, para depois criar a funcionalidade definida.
+    - Mantenha os itens pequenos, sequenciais e fáceis de serem implementados em uma única sessão de trabalho.

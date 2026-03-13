@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&amp;family=Space+Grotesk:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e6d5b7",
+                        "background-light": "#000000",
+                        "background-dark": "#000000",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "serif": ["Cormorant Garamond", "serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>.grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.04;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCaVjRqKQRo2oi-v-Vd7HAD-IY3uvjhTPPC0m1bgLaf1vhi-NA9r7QNsSi6rxVW8kFk9WGHEIQwmG7wAD30UW8I05R9tWFrAf9wKb3MNqyAV_IyNfi3oWEQdc_mWxjCSuXESsQ72TMyGeUfsIuZMMevkrfUyo6nmD40RH_hF28VQ9qkUWxVfrytSPwDfEExQfYzgTPyIxAwWrQpM0pGIXrJZZuysRYF43HZa7cXG3df-sXf1yZPnwSZEY8EwLYBFRdXfjsvlWVFdQll)
+    }
+.text-bleeding {
+    margin-left: -0.05em;
+    letter-spacing: -0.05em
+    }
+.dotted-connector {
+    flex-grow: 1;
+    border-bottom: 1px dotted #3f3f46;
+    margin: 0 12px;
+    margin-bottom: 5px
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display selection:bg-primary selection:text-black">
+<div class="grain-overlay"></div>
+<!-- Navigation Header -->
+<nav class="sticky top-0 z-40 flex items-center justify-between bg-black/80 backdrop-blur-md px-6 py-8 border-b border-zinc-900">
+<div class="text-primary font-bold tracking-widest text-xs uppercase">
+            Obsidian Precision
+        </div>
+<button class="text-slate-100">
+<span class="material-symbols-outlined !text-3xl">menu</span>
+</button>
+</nav>
+<!-- Hero Section -->
+<main class="relative overflow-hidden pt-20 pb-32 px-6">
+<div class="max-w-screen-xl mx-auto">
+<div class="mb-12">
+<span class="text-primary text-xs tracking-[0.3em] uppercase block mb-4">Est. MMXXIV</span>
+<h1 class="text-slate-100 text-7xl md:text-9xl font-serif font-light leading-[0.85] text-bleeding italic">
+                    Meticulously<br/>
+<span class="font-semibold not-italic">Crafted.</span>
+</h1>
+</div>
+<div class="flex flex-col gap-10">
+<p class="text-zinc-500 text-lg leading-relaxed max-w-xs font-light">
+                    The pinnacle of modern grooming. A museum-like sanctuary for the obsidian-grade gentleman.
+                </p>
+<div class="relative w-full aspect-[4/5] bg-zinc-900 overflow-hidden">
+<img alt="Grooming Tools" class="w-full h-full object-cover grayscale contrast-125 opacity-80" data-alt="Close up of professional barber tools on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC134Nf7N5tEEU7Cb0qgLMm3PxHsdb5iX9lJTDS6KD5pGjAyYVz5jx3u1BAUn3DvpzRV4nXJtwKhzDh3s2PGaRmi6Z9VtHHFehz-CI6kr3HftfW-NcDiJ6cBoX59w0s57bW1ZI7PwcwN6IGYEntyzAaX7L0AhvNO-jiLwN-c4ZA5TNHiENgyC9gb_ebdMVzkxZkU3StRkZIb2S7JWwHmL7E4bbEsCh9aymLtGwE82kIryQb458Uu5tulufFrQi73l6_cKkAcQAWBtEQ"/>
+</div>
+<div class="mt-4">
+<a class="inline-block border border-primary px-10 py-5 text-primary uppercase tracking-[0.2em] text-xs hover:bg-primary hover:text-black transition-colors duration-500" href="#">
+                        Agendar Horário
+                    </a>
+</div>
+</div>
+</div>
+</main>
+<!-- Services Table -->
+<section class="bg-black py-32 px-6 border-t border-zinc-900">
+<div class="max-w-screen-xl mx-auto">
+<h2 class="text-primary text-[10px] tracking-[0.5em] uppercase mb-16 font-bold">Catalogue des Services</h2>
+<div class="flex flex-col gap-0 border-t border-zinc-900">
+<!-- Service Row -->
+<div class="flex items-end justify-between py-10 border-b border-zinc-900">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] mb-2">01</span>
+<h3 class="text-2xl font-serif text-slate-100">Classic Cut</h3>
+</div>
+<div class="dotted-connector"></div>
+<div class="text-right">
+<p class="text-slate-100 font-display font-medium">$45</p>
+<p class="text-zinc-600 text-[10px] uppercase tracking-tighter">45 MIN</p>
+</div>
+</div>
+<!-- Service Row -->
+<div class="flex items-end justify-between py-10 border-b border-zinc-900">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] mb-2">02</span>
+<h3 class="text-2xl font-serif text-slate-100">Signature Beard Trim</h3>
+</div>
+<div class="dotted-connector"></div>
+<div class="text-right">
+<p class="text-slate-100 font-display font-medium">$30</p>
+<p class="text-zinc-600 text-[10px] uppercase tracking-tighter">30 MIN</p>
+</div>
+</div>
+<!-- Service Row -->
+<div class="flex items-end justify-between py-10 border-b border-zinc-900">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] mb-2">03</span>
+<h3 class="text-2xl font-serif text-slate-100">The Obsidian Ritual</h3>
+</div>
+<div class="dotted-connector"></div>
+<div class="text-right">
+<p class="text-slate-100 font-display font-medium">$85</p>
+<p class="text-zinc-600 text-[10px] uppercase tracking-tighter">75 MIN</p>
+</div>
+</div>
+<!-- Service Row -->
+<div class="flex items-end justify-between py-10 border-b border-zinc-900">
+<div class="flex flex-col">
+<span class="text-zinc-600 text-[10px] mb-2">04</span>
+<h3 class="text-2xl font-serif text-slate-100">Executive Grooming</h3>
+</div>
+<div class="dotted-connector"></div>
+<div class="text-right">
+<p class="text-slate-100 font-display font-medium">$120</p>
+<p class="text-zinc-600 text-[10px] uppercase tracking-tighter">90 MIN</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Navigation Component -->
+<div class="fixed bottom-0 left-0 w-full z-40 border-t border-zinc-900 bg-black/90 backdrop-blur-xl">
+<div class="flex h-20 items-stretch">
+<a class="flex flex-1 items-center justify-center border-r border-zinc-900 text-primary" href="#">
+<span class="material-symbols-outlined !text-2xl">home</span>
+</a>
+<a class="flex flex-1 items-center justify-center border-r border-zinc-900 text-zinc-600" href="#">
+<span class="material-symbols-outlined !text-2xl">content_cut</span>
+</a>
+<a class="flex flex-1 items-center justify-center border-r border-zinc-900 text-zinc-600" href="#">
+<span class="material-symbols-outlined !text-2xl">calendar_today</span>
+</a>
+<a class="flex flex-1 items-center justify-center text-zinc-600" href="#">
+<span class="material-symbols-outlined !text-2xl">chat_bubble</span>
+</a>
+</div>
+</div>
+<!-- Footer / Monolith -->
+<footer class="bg-black pt-40 pb-60 px-6">
+<div class="max-w-screen-xl mx-auto flex flex-col items-center">
+<a class="group relative flex flex-col items-center w-full max-w-sm py-20 border border-zinc-900 hover:border-primary transition-colors duration-700" href="#">
+<span class="text-primary text-[10px] uppercase tracking-[0.4em] mb-4">Direct Communication</span>
+<span class="text-slate-100 text-4xl font-serif italic group-hover:text-primary transition-colors duration-700">WhatsApp</span>
+<div class="absolute bottom-6 right-6 text-zinc-800 group-hover:text-primary transition-colors duration-700">
+<span class="material-symbols-outlined">north_east</span>
+</div>
+</a>
+<div class="mt-40 text-center">
+<p class="text-zinc-800 text-[10px] uppercase tracking-[0.5em] mb-4">Obsidian Precision © 2024</p>
+<div class="flex gap-8 justify-center opacity-30">
+<div class="size-1 bg-white"></div>
+<div class="size-1 bg-white"></div>
+<div class="size-1 bg-white"></div>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "background-light": "#ffffff",
+                        "background-dark": "#000000",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+        }
+        .tracking-widest-plus {
+            letter-spacing: 0.3em;
+        }
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-light min-h-screen flex flex-col font-display overflow-x-hidden">
+<div class="flex-1 flex items-center justify-center p-6 sm:p-12 lg:p-24">
+<div class="w-full max-w-2xl bg-black dark:bg-black p-12 lg:p-20 shadow-2xl">
+<div class="flex flex-col gap-16">
+<header class="flex flex-col gap-2">
+<div class="flex items-center gap-3 text-primary/40 mb-8">
+<span class="material-symbols-outlined text-sm">shield_person</span>
+<span class="text-[10px] tracking-widest-plus font-light">OBSIDIAN PRECISION // AUTH_REQUIRED</span>
+</div>
+<h1 class="text-primary text-6xl md:text-8xl font-bold tracking-tighter leading-none">
+                        LOGIN.
+                    </h1>
+</header>
+<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-8">
+<div class="group">
+<label class="block text-primary/60 text-[10px] tracking-widest-plus mb-3 font-medium">
+                                IDENTIFIER
+                            </label>
+<input class="w-full bg-black border-b border-t-0 border-l-0 border-r-0 border-white/20 focus:border-white focus:ring-0 text-primary text-lg py-4 px-0 transition-colors duration-300" placeholder="USER@OBSIDIAN.PRECISION" type="email"/>
+</div>
+<div class="group">
+<label class="block text-primary/60 text-[10px] tracking-widest-plus mb-3 font-medium">
+                                ACCESS_KEY
+                            </label>
+<div class="relative">
+<input class="w-full bg-black border-b border-t-0 border-l-0 border-r-0 border-white/20 focus:border-white focus:ring-0 text-primary text-lg py-4 px-0 transition-colors duration-300" placeholder="••••••••••••" type="password"/>
+<button class="absolute right-0 top-1/2 -translate-y-1/2 text-primary/40 hover:text-primary">
+<span class="material-symbols-outlined text-xl">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<button class="group relative w-full bg-primary hover:bg-primary/90 text-black font-bold py-6 px-8 flex items-center justify-between transition-all duration-300">
+<span class="text-sm tracking-widest-plus">ACESSAR SISTEMA</span>
+<span class="material-symbols-outlined transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<div class="flex justify-between items-center text-[9px] text-primary/30 tracking-widest-plus pt-4">
+<span>EST. 2024</span>
+<a class="hover:text-primary transition-colors" href="#">FORGOT_CREDENTIALS</a>
+<span>V.4.0.1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="fixed bottom-0 left-0 w-full bg-black border-t border-white/10 px-8 py-4 flex justify-between items-center z-50">
+<div class="flex gap-8">
+<a class="text-primary flex items-center gap-2 group" href="#">
+<span class="material-symbols-outlined text-lg">terminal</span>
+<span class="text-[9px] tracking-widest-plus hidden sm:block opacity-60 group-hover:opacity-100">COMMAND</span>
+</a>
+<a class="text-primary/40 flex items-center gap-2 group hover:text-primary" href="#">
+<span class="material-symbols-outlined text-lg">memory</span>
+<span class="text-[9px] tracking-widest-plus hidden sm:block opacity-0 group-hover:opacity-60">SYSTEM</span>
+</a>
+<a class="text-primary/40 flex items-center gap-2 group hover:text-primary" href="#">
+<span class="material-symbols-outlined text-lg">database</span>
+<span class="text-[9px] tracking-widest-plus hidden sm:block opacity-0 group-hover:opacity-60">ARCHIVE</span>
+</a>
+</div>
+<div class="flex items-center gap-4 text-primary/20 text-[9px] tracking-widest-plus">
+<span class="hidden md:block">ENCRYPTED_SESSION_ACTIVE</span>
+<div class="h-1 w-1 bg-primary/40 rounded-full animate-pulse"></div>
+<span class="text-primary/60">0x8F92</span>
+</div>
+</nav>
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-[0.02] mix-blend-overlay">
+<div class="absolute inset-0 bg-repeat bg-[length:100px_100px]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E')"></div>
+</div>
+</body></html>

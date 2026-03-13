@@ -31,7 +31,7 @@ O MVP do Sistema de Barbearia exige uma implementação muito ágil devido à re
 
 2. **Backend (FastAPI)**
    - API modular usando APIRouter.
-   - Rotas principais: `/api/servicos`, `/api/profissionais`, `/api/agendamentos`.
+   - Rotas principais: `/api/servicos`, `/api/agendamentos`.
    - Autenticação Simples: JWT apenas para o fluxo de Admin (rotas `/api/admin/*`).
    - Validação de entrada/saída com Pydantic schemas.
 
@@ -39,9 +39,8 @@ O MVP do Sistema de Barbearia exige uma implementação muito ágil devido à re
 
 ```mermaid
 erDiagram
-    PROFISSIONAL {
+    ADMIN {
         int id PK
-        string nome
         string email
         string senha_hash "Para login de admin"
     }
@@ -53,14 +52,12 @@ erDiagram
     }
     AGENDAMENTO {
         int id PK
-        int profissional_id FK
         int servico_id FK
         datetime data_hora_inicio
         string status "Ex: PENDENTE, CONFIRMADO, CANCELADO"
         string nome_cliente "Contato do hóspede"
         string telefone_cliente "WhatsApp do hóspede"
     }
-    PROFISSIONAL ||--o{ AGENDAMENTO : possui
     SERVICO ||--o{ AGENDAMENTO : referencia
 ```
 
@@ -68,7 +65,7 @@ erDiagram
 - O calendário só renderiza horários em intervalos de 30 minutos (ex: 09:00, 09:30, 10:00).
 - Quando o usuário solicita os horários disponíveis (`GET /api/agendamentos/disponiveis`), o FastAPI:
   1. Verifica a configuração de horário de trabalho (ex: 09h às 18h).
-  2. Subtrai os slots (`data_hora_inicio` + `slot_size` do Serviço) que já existem na tabela `Agendamento` para aquele `profissional_id` naquela data.
+  2. Subtrai os slots (`data_hora_inicio` + `slot_size` do Serviço) que já existem na tabela `Agendamento` naquela data.
   3. Retorna apenas os slots viáveis para o tamanho do serviço solicitado.
 
 ## Risks / Trade-offs

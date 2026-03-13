@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Precision | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e6d5b7",
+                        "background-light": "#f8f7f6",
+                        "background-dark": "#09090b", // zinc-950
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .gauge-line { position: relative; }
+        .gauge-line::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            height: 1px;
+            width: 100%;
+            background: rgba(230, 213, 183, 0.2);
+        }
+        .gauge-progress {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            height: 1.5px;
+            background: #e6d5b7;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark text-slate-100 font-display selection:bg-primary selection:text-background-dark">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Top Navigation / Header -->
+<header class="sticky top-0 z-50 border-b border-primary/10 bg-background-dark/80 backdrop-blur-md">
+<div class="flex items-center justify-between p-4">
+<div class="flex flex-col">
+<h1 class="text-sm font-bold tracking-[0.3em] uppercase text-primary">Obsidian Precision</h1>
+<span class="text-[10px] text-primary/40 tracking-widest uppercase">Monday, Oct 24</span>
+</div>
+<button class="flex size-10 items-center justify-center border border-primary/20 hover:bg-primary/5">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+</div>
+<!-- Metrics / Analog Gauges Style -->
+<div class="grid grid-cols-3 gap-0 border-t border-primary/10">
+<div class="flex flex-col p-4 border-r border-primary/10">
+<span class="text-[9px] font-medium tracking-[0.2em] text-primary/60 uppercase">Occupancy</span>
+<div class="gauge-line mt-1">
+<div class="gauge-progress" style="width: 85%;"></div>
+<span class="text-lg font-light tracking-tighter">85%</span>
+</div>
+</div>
+<div class="flex flex-col p-4 border-r border-primary/10">
+<span class="text-[9px] font-medium tracking-[0.2em] text-primary/60 uppercase">Clients</span>
+<div class="gauge-line mt-1">
+<div class="gauge-progress" style="width: 60%;"></div>
+<span class="text-lg font-light tracking-tighter">12</span>
+</div>
+</div>
+<div class="flex flex-col p-4">
+<span class="text-[9px] font-medium tracking-[0.2em] text-primary/60 uppercase">Revenue</span>
+<div class="gauge-line mt-1">
+<div class="gauge-progress" style="width: 45%;"></div>
+<span class="text-lg font-light tracking-tighter">1.2K</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Timeline Container -->
+<main class="flex-1 px-4 py-8 max-w-2xl mx-auto w-full">
+<div class="space-y-0 border-l border-primary/10 ml-12">
+<!-- 09:00 - Empty -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">09:00</div>
+<div class="h-full border-t border-primary/5 flex items-center px-4">
+<span class="text-[10px] tracking-widest uppercase text-primary/20 italic">Available</span>
+</div>
+</div>
+<!-- 09:30 - Empty -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">09:30</div>
+<div class="h-full border-t border-primary/5 flex items-center px-4">
+<span class="text-[10px] tracking-widest uppercase text-primary/20 italic">Available</span>
+</div>
+</div>
+<!-- 10:00 - Occupied -->
+<div class="relative min-h-[100px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">10:00</div>
+<div class="h-full border-t border-primary/5 pt-2 pb-6 px-0">
+<div class="bg-zinc-900 border-l-[1px] border-primary flex flex-col justify-between p-4 h-full">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-sm font-bold tracking-[0.15em] uppercase text-slate-100">Alexander Volkov</h3>
+<p class="text-[10px] tracking-widest uppercase text-primary/60 mt-1">Classic Haircut</p>
+</div>
+<span class="material-symbols-outlined text-primary size-5 text-sm">chat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 11:00 - Occupied -->
+<div class="relative min-h-[100px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">11:00</div>
+<div class="h-full border-t border-primary/5 pt-2 pb-6 px-0">
+<div class="bg-zinc-900 border-l-[1px] border-primary flex flex-col justify-between p-4 h-full">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-sm font-bold tracking-[0.15em] uppercase text-slate-100">Julian Moretti</h3>
+<p class="text-[10px] tracking-widest uppercase text-primary/60 mt-1">Beard Sculpt &amp; Trim</p>
+</div>
+<span class="material-symbols-outlined text-primary size-5 text-sm">chat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 12:00 - Empty -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">12:00</div>
+<div class="h-full border-t border-primary/5 flex items-center px-4">
+<span class="text-[10px] tracking-widest uppercase text-primary/20 italic">Available</span>
+</div>
+</div>
+<!-- 13:00 - Lunch Break (Special State) -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">13:00</div>
+<div class="h-full border-t border-primary/5 flex items-center px-4 bg-primary/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/30 text-xs">coffee</span>
+<span class="text-[10px] tracking-[0.2em] uppercase text-primary/40">Midday Hiatus</span>
+</div>
+</div>
+</div>
+<!-- 14:00 - Occupied -->
+<div class="relative min-h-[140px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">14:00</div>
+<div class="h-full border-t border-primary/5 pt-2 pb-6 px-0">
+<div class="bg-zinc-900 border-l-[1px] border-primary flex flex-col justify-between p-4 h-full">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-sm font-bold tracking-[0.15em] uppercase text-slate-100">Marcus DuPont</h3>
+<p class="text-[10px] tracking-widest uppercase text-primary/60 mt-1">Full Ritual Service</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<span class="material-symbols-outlined text-primary size-5 text-sm">chat</span>
+<span class="text-[9px] font-bold text-primary px-1 border border-primary/20">VIP</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="size-6 bg-zinc-800 border border-primary/10 overflow-hidden">
+<img class="size-full object-cover" data-alt="Client profile headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApN_od-nzHqqgHzp9m54FQ8dtsdC9jVx5RTJdvq6qNmmsvKpSe6xMZpdzZH2DeHW2V56C4XlwPeDxWRQMWSwEtWmibuIJYGDxRvkDzB2w5RUEipohKv7ODLcDdvJOSDlWqSTlBQljRnP35Sn5Yfj89501-hp2vlNjmvLxLTsE05ONF9nA9BQZ4JmHDJm8mzQNRtfHkxw8uhcCqcFnXWi6yML6hyHjy1In6ltFlInM5gzdzrgDHCRtNIxALd59IHbDWgnCIXCnKq4aV"/>
+</div>
+<span class="text-[9px] tracking-widest uppercase text-primary/40">Notes: No blade on neck</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 15:30 - Empty -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">15:30</div>
+<div class="h-full border-t border-primary/5 flex items-center px-4">
+<span class="text-[10px] tracking-widest uppercase text-primary/20 italic">Available</span>
+</div>
+</div>
+<!-- 16:00 - Occupied -->
+<div class="relative min-h-[100px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">16:00</div>
+<div class="h-full border-t border-primary/5 pt-2 pb-6 px-0">
+<div class="bg-zinc-900 border-l-[1px] border-primary flex flex-col justify-between p-4 h-full">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-sm font-bold tracking-[0.15em] uppercase text-slate-100">S. Richardson</h3>
+<p class="text-[10px] tracking-widest uppercase text-primary/60 mt-1">Buzz Cut &amp; Fade</p>
+</div>
+<span class="material-symbols-outlined text-primary size-5 text-sm">chat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Last Empty Slot -->
+<div class="relative min-h-[80px] group">
+<div class="absolute -left-12 top-0 text-[10px] font-medium tracking-widest text-primary/40 uppercase">17:00</div>
+<div class="h-full border-t border-primary/5 border-b border-primary/5 flex items-center px-4">
+<span class="text-[10px] tracking-widest uppercase text-primary/20 italic">Final Slot Open</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Tab Bar -->
+<nav class="sticky bottom-0 z-50 bg-background-dark border-t border-primary/10 flex items-center justify-around px-4 pb-6 pt-2">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined text-[20px] fill-current">calendar_today</span>
+<span class="text-[8px] font-bold tracking-[0.2em] uppercase">Schedule</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-[8px] font-bold tracking-[0.2em] uppercase">Clients</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="text-[8px] font-bold tracking-[0.2em] uppercase">Metrics</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">content_cut</span>
+<span class="text-[8px] font-bold tracking-[0.2em] uppercase">Services</span>
+</a>
+</nav>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 size-14 bg-background-dark border border-primary flex items-center justify-center rounded-full shadow-2xl hover:bg-primary transition-all group z-[60]">
+<span class="material-symbols-outlined text-primary group-hover:text-background-dark text-3xl transition-colors">add</span>
+</button>
+</div>
+</body></html>

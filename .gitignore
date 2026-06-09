@@ -1,0 +1,51 @@
+# Secrets e arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Dependências
+node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Banco de dados local
+*.db
+*.sqlite
+
+# Testes e coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+# Docker volumes locais
+postgres_data/
+pgadmin_data/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code / Agent local files
+.claude/
+.agent/
+
+# OS
+.DS_Store
+Thumbs.db

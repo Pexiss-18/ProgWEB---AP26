@@ -20,8 +20,13 @@ class AgendamentoResponse(BaseModel):
     nome_cliente: str
     telefone_cliente: str
     status: str
+    slot_size: int = 1
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class CancelamentoClienteRequest(BaseModel):
+    telefone_cliente: str = Field(pattern=r"^\d{10,11}$")
 
 
 class StatusUpdate(BaseModel):

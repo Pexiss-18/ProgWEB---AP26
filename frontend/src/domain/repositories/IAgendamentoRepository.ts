@@ -23,4 +23,5 @@ export interface IAgendamentoRepository {
     id: number,
     status: "PENDENTE" | "CONFIRMADO" | "CANCELADO"
   ): Promise<Agendamento>;
+  cancelar(id: number, telefoneCliente: string): Promise<Agendamento>;
 }

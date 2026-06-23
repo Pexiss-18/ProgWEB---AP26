@@ -17,18 +17,25 @@ export class HttpAgendamentoRepository implements IAgendamentoRepository {
     const dateStr = a.data_hora_inicio.endsWith("Z")
       ? a.data_hora_inicio
       : `${a.data_hora_inicio}Z`;
+    // Backend armazena telefone sem DDI (10-11 dígitos). Prefixamos "55" para
+    // reconstruir o Telefone value object que exige o formato completo.
     return new Agendamento(
       {
         servicoId: a.servico_id,
         dataHoraInicio: new Date(dateStr),
         nomeCliente: a.nome_cliente,
-        telefoneCliente: new Telefone(a.telefone_cliente),
+        telefoneCliente: new Telefone("55" + a.telefone_cliente),
         status: a.status,
         slotSize: a.slot_size,
       },
       a.id,
       a.criado_em ? new Date(a.criado_em) : undefined
     );
+  }
+
+  // Remove o DDI "55" antes de enviar — o backend espera apenas DDD + número (10-11 dígitos).
+  private stripDDI(telefone: string): string {
+    return telefone.replace(/^55/, "");
   }
 
   private toLocalISO(date: Date): string {
@@ -49,7 +56,7 @@ export class HttpAgendamentoRepository implements IAgendamentoRepository {
         servico_id: payload.servicoId,
         data_hora_inicio: this.toLocalISO(payload.dataHoraInicio),
         nome_cliente: payload.nomeCliente,
-        telefone_cliente: payload.telefoneCliente,
+        telefone_cliente: this.stripDDI(payload.telefoneCliente),
       },
     });
     return this.mapToEntity(data);
@@ -73,7 +80,17 @@ export class HttpAgendamentoRepository implements IAgendamentoRepository {
         servico_id: payload.servicoId,
         data_hora_inicio: this.toLocalISO(payload.dataHoraInicio),
         nome_cliente: payload.nomeCliente,
-        telefone_cliente: payload.telefoneCliente,
+        telefone_cliente: this.stripDDI(payload.telefoneCliente),
+      },
+    });
+    return this.mapToEntity(data);
+  }
+
+  async cancelar(id: number, telefoneCliente: string): Promise<Agendamento> {
+    const data = await this.http.request<any>(`/api/agendamentos/${id}/cancelar`, {
+      method: "PATCH",
+      body: {
+        telefone_cliente: this.stripDDI(telefoneCliente),
       },
     });
     return this.mapToEntity(data);

@@ -4,24 +4,25 @@ SQLAlchemy implementation of IAgendamentoRepository (Async).
 from datetime import date, datetime, timedelta, timezone
 
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.domain.entities import Agendamento
+from app.domain.entities import Agendamento, StatusAgendamento
+from app.domain.exceptions import SlotIndisponivelError
 from app.infrastructure.models import AgendamentoModel
 from app.use_cases.interfaces import IAgendamentoRepository
 
 
 def _to_entity(model: AgendamentoModel) -> Agendamento:
-    slot_size = model.servico.slot_size if model.servico else 1
     return Agendamento(
         id=model.id,
         servico_id=model.servico_id,
         data_hora_inicio=model.data_hora_inicio,
         nome_cliente=model.nome_cliente,
         telefone_cliente=model.telefone_cliente,
-        status=model.status,
-        slot_size=slot_size,
+        status=StatusAgendamento(model.status),
+        slot_size=model.slot_size,
         criado_em=model.criado_em,
     )
 
@@ -53,18 +54,19 @@ class SqlAlchemyAgendamentoRepository(IAgendamentoRepository):
             data_hora_inicio=agendamento.data_hora_inicio,
             nome_cliente=agendamento.nome_cliente,
             telefone_cliente=agendamento.telefone_cliente,
-            status=agendamento.status.value,  # Enum value
+            status=agendamento.status.value,
+            slot_size=agendamento.slot_size,
         )
-        self._db.add(model)
-        await self._db.flush()   # obtém ID sem commit ainda
-        
-        # Load relationship safely after flush to get correct slot_size
-        stmt = select(AgendamentoModel).options(selectinload(AgendamentoModel.servico)).where(AgendamentoModel.id == model.id)
-        res = await self._db.execute(stmt)
-        model_with_rel = res.scalar_one()
-        
+        try:
+            self._db.add(model)
+            await self._db.flush()
+        except IntegrityError:
+            await self._db.rollback()
+            raise SlotIndisponivelError("Este horário acabou de ser reservado. Escolha outro.")
+
         await self._db.commit()
-        return _to_entity(model_with_rel)
+        await self._db.refresh(model)
+        return _to_entity(model)
 
     async def atualizar_status(self, id: int, status: str) -> Agendamento:
         stmt = select(AgendamentoModel).options(selectinload(AgendamentoModel.servico)).where(AgendamentoModel.id == id)

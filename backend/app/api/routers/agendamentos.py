@@ -15,10 +15,19 @@ from app.api.schemas.agendamento import (
     AgendamentoAdminCreate,
     AgendamentoCreate,
     AgendamentoResponse,
+    CancelamentoClienteRequest,
     SlotDisponivel,
     SlotsDisponiveis,
     StatusUpdate,
 )
+from app.domain.exceptions import (
+    AgendamentoPassadoError,
+    IdentidadeNaoConfirmadaError,
+    ServicoInativoError,
+    TransicaoStatusInvalidaError,
+)
+from app.use_cases.agendamentos.atualizar_status_agendamento import AtualizarStatusAgendamento
+from app.use_cases.agendamentos.cancelar_agendamento_cliente import CancelarAgendamentoCliente
 from app.use_cases.agendamentos.criar_agendamento import CriarAgendamento, SlotIndisponivelError
 from app.use_cases.agendamentos.listar_slots_disponiveis import ListarSlotsDisponiveis
 
@@ -49,7 +58,7 @@ async def criar_agendamento(
     servico_repo: SqlAlchemyServicoRepository = Depends(get_servico_repo),
     whatsapp_gw: TwilioWhatsAppGateway = Depends(get_whatsapp_gateway),
 ):
-    """Cria um agendamento (público, modo visitante). Envia WhatsApp via Twilio."""
+    """Cria um agendamento (público). Envia confirmação via WhatsApp."""
     uc = CriarAgendamento(agendamento_repo, servico_repo, whatsapp_gw)
     try:
         agendamento = await uc.executar(
@@ -60,9 +69,29 @@ async def criar_agendamento(
         )
     except SlotIndisponivelError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
+    except ServicoInativoError as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     return agendamento
+
+
+@router.patch("/api/agendamentos/{id}/cancelar", response_model=AgendamentoResponse)
+async def cancelar_agendamento_cliente(
+    id: int,
+    body: CancelamentoClienteRequest,
+    agendamento_repo: SqlAlchemyAgendamentoRepository = Depends(get_agendamento_repo),
+):
+    """Cancela um agendamento pelo próprio cliente. Requer telefone como confirmação de identidade."""
+    uc = CancelarAgendamentoCliente(agendamento_repo)
+    try:
+        return await uc.executar(id=id, telefone_cliente=body.telefone_cliente)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except IdentidadeNaoConfirmadaError as e:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
+    except (TransicaoStatusInvalidaError, AgendamentoPassadoError) as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
 @router.get("/api/admin/agendamentos", response_model=list[AgendamentoResponse], dependencies=[Depends(get_current_admin)])
@@ -70,7 +99,7 @@ async def listar_agendamentos_admin(
     data: date = Query(default_factory=date.today, description="Data YYYY-MM-DD"),
     agendamento_repo: SqlAlchemyAgendamentoRepository = Depends(get_agendamento_repo),
 ):
-    """Lista todos os agendamentos de um dia (admin — usado pelo dashboard)."""
+    """Lista todos os agendamentos de um dia (admin)."""
     return await agendamento_repo.buscar_por_data(data)
 
 
@@ -80,11 +109,14 @@ async def atualizar_status(
     body: StatusUpdate,
     agendamento_repo: SqlAlchemyAgendamentoRepository = Depends(get_agendamento_repo),
 ):
-    """Atualiza o status de um agendamento (admin)."""
+    """Atualiza o status de um agendamento respeitando a máquina de estados do domínio (admin)."""
+    uc = AtualizarStatusAgendamento(agendamento_repo)
     try:
-        return await agendamento_repo.atualizar_status(id=id, status=body.status)
+        return await uc.executar(id=id, novo_status=body.status)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except (TransicaoStatusInvalidaError, AgendamentoPassadoError) as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
 
 
 @router.post("/api/admin/agendamentos", response_model=AgendamentoResponse, status_code=201, dependencies=[Depends(get_current_admin)])
@@ -96,7 +128,7 @@ async def criar_agendamento_admin(
 ):
     """
     Cria agendamento de walk-in direto pelo admin.
-    O status começa como CONFIRMADO (não aciona WhatsApp).
+    Não envia WhatsApp. Retorna com status CONFIRMADO.
     """
     uc = CriarAgendamento(agendamento_repo, servico_repo, whatsapp_gw)
     try:
@@ -105,8 +137,13 @@ async def criar_agendamento_admin(
             data_hora_inicio=body.data_hora_inicio,
             nome_cliente=body.nome_cliente,
             telefone_cliente=body.telefone_cliente,
+            notificar=False,
         )
     except SlotIndisponivelError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-    # Atualiza para CONFIRMADO pois é walk-in do admin
+    except ServicoInativoError as e:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
     return await agendamento_repo.atualizar_status(id=agendamento.id, status="CONFIRMADO")

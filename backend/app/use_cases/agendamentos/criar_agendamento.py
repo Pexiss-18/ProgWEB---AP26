@@ -38,6 +38,7 @@ class CriarAgendamento:
         data_hora_inicio: datetime,
         nome_cliente: str,
         telefone_cliente: str,
+        notificar: bool = True,
     ) -> Agendamento:
         # 1. Valida serviço — a entidade sabe se está disponível
         servico = await self._servico_repo.buscar_por_id(servico_id)
@@ -69,17 +70,18 @@ class CriarAgendamento:
         )
         salvo = await self._agendamento_repo.criar(novo)
 
-        # 4. Notifica via WhatsApp (falha silenciosa)
-        try:
-            await self._whatsapp_gw.enviar_confirmacao(
-                telefone=telefone_cliente,
-                dados={
-                    "nome": nome_cliente,
-                    "servico": servico.nome,
-                    "data_hora": data_hora_inicio,
-                },
-            )
-        except Exception as e:
-            logger.error("Falha ao enviar WhatsApp para %s: %s", telefone_cliente, e)
+        # 4. Notifica via WhatsApp (falha silenciosa, pode ser suprimido pelo caller)
+        if notificar:
+            try:
+                await self._whatsapp_gw.enviar_confirmacao(
+                    telefone=telefone_cliente,
+                    dados={
+                        "nome": nome_cliente,
+                        "servico": servico.nome,
+                        "data_hora": data_hora_inicio,
+                    },
+                )
+            except Exception as e:
+                logger.error("Falha ao enviar WhatsApp para %s: %s", telefone_cliente, e)
 
         return salvo

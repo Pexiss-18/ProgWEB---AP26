@@ -39,3 +39,7 @@ class SlotIndisponivelError(DomainError):
 
 class ServicoComAgendamentosFuturosError(DomainError):
     """Levantada quando se tenta remover um serviço que possui agendamentos futuros."""
+
+
+class IdentidadeNaoConfirmadaError(DomainError):
+    """Levantada quando o telefone informado não corresponde ao agendamento."""

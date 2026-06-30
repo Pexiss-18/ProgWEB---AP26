@@ -12,7 +12,7 @@ from app.domain.exceptions import (
     TransicaoStatusInvalidaError,
     ValorInvalidoError,
 )
-from app.domain.value_objects import SlotGrid
+from app.domain.value_objects import FUSO_BARBEARIA, SlotGrid
 
 
 # ---------------------------------------------------------------------------
@@ -29,7 +29,7 @@ def make_agendamento(
     return Agendamento(
         id=1,
         servico_id=1,
-        data_hora_inicio=datetime(data.year, data.month, data.day, hora, minuto, tzinfo=timezone.utc),
+        data_hora_inicio=datetime(data.year, data.month, data.day, hora, minuto, tzinfo=FUSO_BARBEARIA),
         nome_cliente="Paulo",
         telefone_cliente="11999990000",
         status=status,
@@ -123,11 +123,11 @@ class TestAgendamentoPropriedades:
 
     def test_hora_fim_calculada_corretamente(self):
         a = make_agendamento(hora=10, minuto=0, slot_size=1)
-        assert a.hora_fim == datetime(2099, 12, 20, 10, 30, tzinfo=timezone.utc)
+        assert a.hora_fim == datetime(2099, 12, 20, 10, 30, tzinfo=FUSO_BARBEARIA)
 
     def test_hora_fim_2_slots(self):
         a = make_agendamento(hora=10, minuto=0, slot_size=2)
-        assert a.hora_fim == datetime(2099, 12, 20, 11, 0, tzinfo=timezone.utc)
+        assert a.hora_fim == datetime(2099, 12, 20, 11, 0, tzinfo=FUSO_BARBEARIA)
 
 
 # ---------------------------------------------------------------------------
@@ -168,7 +168,7 @@ class TestAgendamentoTransicoes:
     def test_cancelar_agendamento_passado_levanta_erro(self):
         a = Agendamento(
             servico_id=1,
-            data_hora_inicio=datetime(2000, 1, 1, 10, 0),  # passado garantido
+            data_hora_inicio=datetime(2000, 1, 1, 10, 0, tzinfo=timezone.utc),  # passado garantido
             nome_cliente="Paulo",
             telefone_cliente="11999990000",
         )

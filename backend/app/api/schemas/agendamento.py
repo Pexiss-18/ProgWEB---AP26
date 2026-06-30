@@ -1,5 +1,7 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from app.domain.value_objects import FUSO_BARBEARIA
 
 
 class AgendamentoCreate(BaseModel):
@@ -10,13 +12,13 @@ class AgendamentoCreate(BaseModel):
 
     @field_validator("data_hora_inicio")
     @classmethod
-    def _normalizar_para_utc(cls, v: datetime) -> datetime:
+    def _normalizar_fuso(cls, v: datetime) -> datetime:
         # O frontend envia horários "naive" representando o horário local da
-        # barbearia — tratamos como UTC (mesma convenção já usada no resto do
-        # backend) em vez de deixar o driver do banco rejeitar o valor.
+        # barbearia (America/Sao_Paulo) — etiquetamos com o fuso correto em
+        # vez de deixar o driver do banco rejeitar o valor.
         if v.tzinfo is None:
-            return v.replace(tzinfo=timezone.utc)
-        return v.astimezone(timezone.utc)
+            return v.replace(tzinfo=FUSO_BARBEARIA)
+        return v
 
 
 class AgendamentoAdminCreate(AgendamentoCreate):

@@ -1,18 +1,19 @@
 """
 TESTES (TDD) — Use Case: Criar Agendamento.
 """
-from datetime import datetime, timezone
+from datetime import datetime
 from unittest.mock import MagicMock, AsyncMock
 
 import pytest
 
 from app.domain.entities import Agendamento, Servico, StatusAgendamento
 from app.domain.exceptions import ServicoInativoError, SlotIndisponivelError
+from app.domain.value_objects import FUSO_BARBEARIA
 from app.use_cases.interfaces import IAgendamentoRepository, IServicoRepository, IWhatsAppGateway
 from app.use_cases.agendamentos.criar_agendamento import CriarAgendamento
 
 
-DATA_HORA = datetime(2099, 10, 20, 10, 0, tzinfo=timezone.utc)
+DATA_HORA = datetime(2099, 10, 20, 10, 0, tzinfo=FUSO_BARBEARIA)
 
 
 def make_servico(slot_size: int = 1, ativo: bool = True) -> Servico:

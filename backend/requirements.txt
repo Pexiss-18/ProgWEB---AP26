@@ -10,3 +10,4 @@ bcrypt
 twilio
 python-dotenv
 python-multipart
+tzdata

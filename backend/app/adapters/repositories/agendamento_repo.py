@@ -10,6 +10,7 @@ from sqlalchemy.orm import selectinload
 
 from app.domain.entities import Agendamento, StatusAgendamento
 from app.domain.exceptions import SlotIndisponivelError
+from app.domain.value_objects import FUSO_BARBEARIA
 from app.infrastructure.models import AgendamentoModel
 from app.use_cases.interfaces import IAgendamentoRepository
 
@@ -32,7 +33,7 @@ class SqlAlchemyAgendamentoRepository(IAgendamentoRepository):
         self._db = db
 
     async def buscar_por_data(self, data: date) -> list[Agendamento]:
-        inicio_do_dia = datetime(data.year, data.month, data.day, 0, 0, tzinfo=timezone.utc)
+        inicio_do_dia = datetime(data.year, data.month, data.day, 0, 0, tzinfo=FUSO_BARBEARIA)
         fim_do_dia = inicio_do_dia + timedelta(days=1)
         
         stmt = (

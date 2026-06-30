@@ -7,8 +7,9 @@ e encapsulam regras/cálculos que pertencem ao domínio mas não a uma entidade 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from typing import TYPE_CHECKING
+from zoneinfo import ZoneInfo
 
 if TYPE_CHECKING:
     from app.domain.entities import Agendamento
@@ -21,6 +22,10 @@ if TYPE_CHECKING:
 HORA_INICIO_BARBEIRO = 9   # 09:00
 HORA_FIM_BARBEIRO = 18     # 18:00
 SLOT_MINUTOS = 30
+
+# Fuso horário oficial da barbearia — todos os horários de expediente
+# (09:00–18:00) são entendidos como hora local de Brasília, não UTC.
+FUSO_BARBEARIA = ZoneInfo("America/Sao_Paulo")
 
 
 @dataclass(frozen=True)
@@ -49,8 +54,8 @@ class SlotGrid:
         O último slot incluído é aquele que ainda cabe antes do fim do expediente.
         """
         slots: list[datetime] = []
-        atual = datetime(data.year, data.month, data.day, self.hora_inicio, 0, tzinfo=timezone.utc)
-        fim = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=timezone.utc)
+        atual = datetime(data.year, data.month, data.day, self.hora_inicio, 0, tzinfo=FUSO_BARBEARIA)
+        fim = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=FUSO_BARBEARIA)
         while atual < fim:
             slots.append(atual)
             atual += timedelta(minutes=self.slot_minutos)
@@ -70,7 +75,7 @@ class SlotGrid:
         2. Não colide com nenhum agendamento ativo existente.
         """
         # Importação local para evitar circular import (entities importa value_objects)
-        fim_dia = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=timezone.utc)
+        fim_dia = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=FUSO_BARBEARIA)
         duracao = timedelta(minutes=duracao_slots * self.slot_minutos)
 
         # Agendamentos cancelados não bloqueiam slots

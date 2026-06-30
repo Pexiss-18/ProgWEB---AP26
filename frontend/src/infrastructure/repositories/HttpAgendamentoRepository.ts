@@ -7,17 +7,23 @@ export class HttpAgendamentoRepository implements IAgendamentoRepository {
   constructor(private http: HttpClient) {}
 
   async listarSlotsDisponiveis(data: string, servicoId: number): Promise<{ hora: string }[]> {
-    // Backend retorna uma lista simples de datetimes ISO (ex: "2026-07-01T09:00:00"),
-    // não objetos — extraímos o HH:mm para a grade de horários.
+    // Backend retorna uma lista simples de datetimes ISO em UTC (ex:
+    // "2026-07-01T12:00:00Z" para as 09:00 de Brasília) — não objetos.
+    // Convertemos para o horário local do navegador (assume-se Brasília)
+    // para montar a grade de horários.
     const body = await this.http.request<{ slots: string[] }>(
       `/api/agendamentos/disponiveis?data=${data}&servico_id=${servicoId}`
     );
-    return body.slots.map((iso) => ({ hora: iso.slice(11, 16) }));
+    return body.slots.map((iso) => {
+      const d = new Date(this.comoUTC(iso));
+      const hh = String(d.getHours()).padStart(2, "0");
+      const mm = String(d.getMinutes()).padStart(2, "0");
+      return { hora: `${hh}:${mm}` };
+    });
   }
 
-  // Garante que uma string ISO sem timezone seja interpretada como UTC
-  // (mesma convenção usada no backend), sem duplicar o sufixo quando o
-  // backend já enviar um offset (ex: "+00:00").
+  // Garante que uma string ISO sem timezone seja interpretada como UTC,
+  // sem duplicar o sufixo quando o backend já enviar um offset (ex: "+00:00").
   private comoUTC(isoStr: string): string {
     return /[zZ]|[+-]\d{2}:\d{2}$/.test(isoStr) ? isoStr : `${isoStr}Z`;
   }

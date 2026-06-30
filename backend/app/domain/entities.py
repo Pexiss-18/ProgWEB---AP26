@@ -168,9 +168,8 @@ class Agendamento(Entity):
             raise TransicaoStatusInvalidaError(
                 "Este agendamento já está cancelado."
             )
-        agora = datetime.now(timezone.utc).replace(tzinfo=None)
-        inicio = self.data_hora_inicio.replace(tzinfo=None)
-        if inicio < agora:
+        agora = datetime.now(timezone.utc)
+        if self.data_hora_inicio < agora:
             raise AgendamentoPassadoError(
                 "Não é possível cancelar um agendamento que já passou."
             )

@@ -5,15 +5,18 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Antigravity palette */
-  --color-ag-dark: #3E2522;
-  --color-ag-sepia: #8C6E63;
-  --color-ag-cream: #FFE0B2;
-  --color-ag-beige: #FFF2DF;
-  --color-ag-gold: #D3A376;
-
-  /* Neumorphic shadow */
-  --shadow-neumorphic: 14px 14px 28px rgba(140, 110, 99, 0.4), -14px -14px 28px rgba(255, 242, 223, 0.85);
+  /* Marlon Barber Shop palette */
+  --color-ag-dark: #0d0700;
+  --color-ag-dark-2: #120a05;
+  --color-ag-panel: #1a0e08;
+  --color-ag-border: #2a1a0e;
+  --color-ag-gold: #c9a84c;
+  --color-ag-gold-light: #e4c97e;
+  --color-ag-crimson: #8b1a1a;
+  --color-ag-crimson-2: #6d1414;
+  --color-ag-beige: #e8dcc8;
+  --color-ag-beige-muted: #b8a898;
+  --color-ag-sepia: #94816b;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -139,6 +142,37 @@
   }
 }
 
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #0d0700;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a2a1a;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a84c;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, #1a0e08 25%, #2a1a0e 50%, #1a0e08 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 @layer components {
   .bg-leather-texture {
     background-color: #120a05;
@@ -147,79 +181,58 @@
   }
 
   .skeuo-panel {
-    background: linear-gradient(145deg, #1f0f06, #160a03);
+    background: #1a0e08;
     border: 1px solid #2a1a0e;
-    box-shadow: 
-      inset 1px 1px 2px rgba(255,255,255,0.05),
-      inset -1px -1px 2px rgba(0,0,0,0.5),
-      0 15px 35px rgba(0,0,0,0.6),
-      0 5px 15px rgba(139,26,26,0.05);
-    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
   }
 
   .skeuo-input {
-    background: #0a0502;
-    border: 1px solid #1a0d07;
-    box-shadow: 
-      inset 3px 3px 6px rgba(0,0,0,0.8),
-      inset -1px -1px 2px rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid #2a1a0e;
     color: #e8dcc8;
     transition: all 0.2s ease;
   }
   .skeuo-input:focus {
     outline: none;
-    border-color: #8b1a1a;
-    box-shadow: 
-      inset 3px 3px 6px rgba(0,0,0,0.8),
-      inset -1px -1px 2px rgba(255,255,255,0.03),
-      0 0 12px rgba(139,26,26,0.25);
+    border-color: #c9a84c;
+    box-shadow: 0 0 0 1px rgba(201,168,76,0.3);
   }
 
   .skeuo-btn {
-    background: linear-gradient(145deg, #8b1a1a, #6a1212);
-    border: 1px solid #a01e1e;
-    border-bottom-color: #4a0d0d;
-    box-shadow: 
-      inset 1px 1px 1px rgba(255,255,255,0.2),
-      inset -1px -1px 2px rgba(0,0,0,0.3),
-      0 6px 8px rgba(0,0,0,0.4),
-      0 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(135deg, #8b1a1a, #6d1414);
+    border: none;
+    box-shadow: 0 4px 15px rgba(139,26,26,0.4);
     color: #e8dcc8;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 0.15em;
-    text-shadow: 0 -1px 1px rgba(0,0,0,0.6);
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
   }
 
-  .skeuo-btn:active {
-    transform: translateY(3px);
-    box-shadow: 
-      inset 3px 3px 6px rgba(0,0,0,0.6),
-      0 1px 2px rgba(0,0,0,0.2);
-    background: linear-gradient(145deg, #7a1515, #5a0f0f);
+  .skeuo-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139,26,26,0.55);
+  }
+
+  .skeuo-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(139,26,26,0.4);
   }
 
   .skeuo-btn-metal {
-    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-    border: 1px solid #3a3a3a;
-    border-bottom-color: #0a0a0a;
-    box-shadow: 
-      inset 1px 1px 2px rgba(255,255,255,0.1),
-      inset -1px -1px 2px rgba(0,0,0,0.4),
-      0 4px 6px rgba(0,0,0,0.5);
-    color: #a0a0a0;
+    background: transparent;
+    border: 1px solid #2a1a0e;
+    color: #94816b;
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 0.1em;
-    text-shadow: 0 -1px 1px rgba(0,0,0,0.8);
-    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
   }
 
-  .skeuo-btn-metal:active {
-    transform: translateY(2px);
-    box-shadow: 
-      inset 2px 2px 5px rgba(0,0,0,0.6),
-      0 1px 2px rgba(0,0,0,0.2);
+  .skeuo-btn-metal:hover:not(:disabled) {
+    border-color: #c9a84c;
+    color: #e8dcc8;
   }
 }

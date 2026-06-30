@@ -32,7 +32,7 @@ class SqlAlchemyAgendamentoRepository(IAgendamentoRepository):
         self._db = db
 
     async def buscar_por_data(self, data: date) -> list[Agendamento]:
-        inicio_do_dia = datetime(data.year, data.month, data.day, 0, 0)
+        inicio_do_dia = datetime(data.year, data.month, data.day, 0, 0, tzinfo=timezone.utc)
         fim_do_dia = inicio_do_dia + timedelta(days=1)
         
         stmt = (

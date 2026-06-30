@@ -1,7 +1,7 @@
 """
 TESTES (TDD) — Use Case: Listar Slots Disponíveis.
 """
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from unittest.mock import MagicMock, AsyncMock
 
 import pytest
@@ -15,7 +15,7 @@ def make_agendamento(hora: int, minuto: int, slot_size: int = 1, data: date = da
     return Agendamento(
         id=1,
         servico_id=1,
-        data_hora_inicio=datetime(data.year, data.month, data.day, hora, minuto),
+        data_hora_inicio=datetime(data.year, data.month, data.day, hora, minuto, tzinfo=timezone.utc),
         nome_cliente="Paulo",
         telefone_cliente="11999990000",
         status=StatusAgendamento.CONFIRMADO,
@@ -73,7 +73,7 @@ class TestListarSlotsDisponiveis:
         """Agendamento CANCELADO não deve bloquear o slot."""
         cancelado = Agendamento(
             id=2, servico_id=1,
-            data_hora_inicio=datetime(self.DATA.year, self.DATA.month, self.DATA.day, 10, 0),
+            data_hora_inicio=datetime(self.DATA.year, self.DATA.month, self.DATA.day, 10, 0, tzinfo=timezone.utc),
             nome_cliente="X", telefone_cliente="11000000000",
             status=StatusAgendamento.CANCELADO, slot_size=1,
         )

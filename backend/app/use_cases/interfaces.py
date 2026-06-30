@@ -46,6 +46,9 @@ class IAdminRepository(ABC):
     @abstractmethod
     async def buscar_por_email(self, email: str) -> Admin | None: ...
 
+    @abstractmethod
+    async def criar(self, admin: Admin) -> Admin: ...
+
 
 class IWhatsAppGateway(ABC):
     @abstractmethod

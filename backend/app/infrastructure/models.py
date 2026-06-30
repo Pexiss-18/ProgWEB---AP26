@@ -33,13 +33,13 @@ class AgendamentoModel(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     servico_id: Mapped[int] = mapped_column(Integer, ForeignKey("servico.id"), nullable=False)
-    data_hora_inicio: Mapped[datetime] = mapped_column(DateTime, nullable=False, index=True)
+    data_hora_inicio: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
     status: Mapped[str] = mapped_column(String, nullable=False, default="PENDENTE")
     nome_cliente: Mapped[str] = mapped_column(String, nullable=False)
     telefone_cliente: Mapped[str] = mapped_column(String, nullable=False)
     slot_size: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     criado_em: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, server_default=func.now()
+        DateTime(timezone=True), nullable=False, server_default=func.now()
     )
 
     servico: Mapped[ServicoModel] = relationship(back_populates="agendamentos")

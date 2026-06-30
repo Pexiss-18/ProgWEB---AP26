@@ -7,29 +7,35 @@ export class HttpAgendamentoRepository implements IAgendamentoRepository {
   constructor(private http: HttpClient) {}
 
   async listarSlotsDisponiveis(data: string, servicoId: number): Promise<{ hora: string }[]> {
-    const body = await this.http.request<{ slots: { hora: string }[] }>(
+    // Backend retorna uma lista simples de datetimes ISO (ex: "2026-07-01T09:00:00"),
+    // não objetos — extraímos o HH:mm para a grade de horários.
+    const body = await this.http.request<{ slots: string[] }>(
       `/api/agendamentos/disponiveis?data=${data}&servico_id=${servicoId}`
     );
-    return body.slots;
+    return body.slots.map((iso) => ({ hora: iso.slice(11, 16) }));
+  }
+
+  // Garante que uma string ISO sem timezone seja interpretada como UTC
+  // (mesma convenção usada no backend), sem duplicar o sufixo quando o
+  // backend já enviar um offset (ex: "+00:00").
+  private comoUTC(isoStr: string): string {
+    return /[zZ]|[+-]\d{2}:\d{2}$/.test(isoStr) ? isoStr : `${isoStr}Z`;
   }
 
   private mapToEntity(a: any): Agendamento {
-    const dateStr = a.data_hora_inicio.endsWith("Z")
-      ? a.data_hora_inicio
-      : `${a.data_hora_inicio}Z`;
     // Backend armazena telefone sem DDI (10-11 dígitos). Prefixamos "55" para
     // reconstruir o Telefone value object que exige o formato completo.
     return new Agendamento(
       {
         servicoId: a.servico_id,
-        dataHoraInicio: new Date(dateStr),
+        dataHoraInicio: new Date(this.comoUTC(a.data_hora_inicio)),
         nomeCliente: a.nome_cliente,
         telefoneCliente: new Telefone("55" + a.telefone_cliente),
         status: a.status,
         slotSize: a.slot_size,
       },
       a.id,
-      a.criado_em ? new Date(a.criado_em) : undefined
+      a.criado_em ? new Date(this.comoUTC(a.criado_em)) : undefined
     );
   }
 

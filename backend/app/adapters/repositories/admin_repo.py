@@ -21,3 +21,10 @@ class SqlAlchemyAdminRepository(IAdminRepository):
         if model is None:
             return None
         return Admin(id=model.id, email=model.email, senha_hash=model.senha_hash)
+
+    async def criar(self, admin: Admin) -> Admin:
+        model = AdminModel(email=admin.email, senha_hash=admin.senha_hash)
+        self._db.add(model)
+        await self._db.commit()
+        await self._db.refresh(model)
+        return Admin(id=model.id, email=model.email, senha_hash=model.senha_hash)

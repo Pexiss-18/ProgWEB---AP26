@@ -7,7 +7,7 @@ e encapsulam regras/cálculos que pertencem ao domínio mas não a uma entidade 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -49,8 +49,8 @@ class SlotGrid:
         O último slot incluído é aquele que ainda cabe antes do fim do expediente.
         """
         slots: list[datetime] = []
-        atual = datetime(data.year, data.month, data.day, self.hora_inicio, 0)
-        fim = datetime(data.year, data.month, data.day, self.hora_fim, 0)
+        atual = datetime(data.year, data.month, data.day, self.hora_inicio, 0, tzinfo=timezone.utc)
+        fim = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=timezone.utc)
         while atual < fim:
             slots.append(atual)
             atual += timedelta(minutes=self.slot_minutos)
@@ -70,7 +70,7 @@ class SlotGrid:
         2. Não colide com nenhum agendamento ativo existente.
         """
         # Importação local para evitar circular import (entities importa value_objects)
-        fim_dia = datetime(data.year, data.month, data.day, self.hora_fim, 0)
+        fim_dia = datetime(data.year, data.month, data.day, self.hora_fim, 0, tzinfo=timezone.utc)
         duracao = timedelta(minutes=duracao_slots * self.slot_minutos)
 
         # Agendamentos cancelados não bloqueiam slots

@@ -6,21 +6,21 @@ export default function LoginPage() {
     <div
       className="min-h-screen flex items-center justify-center px-4"
       style={{
-        background: "linear-gradient(180deg, #FFF2DF 0%, #8C6E63 100%)",
+        background: "radial-gradient(ellipse at center, #1a0e08 0%, #0d0700 100%)",
       }}
     >
-      {/* Floating card with neumorphic shadow */}
+      {/* Floating card */}
       <div
-        className="flex w-full max-w-3xl min-h-[520px] rounded-2xl overflow-hidden"
-        style={{ boxShadow: "var(--shadow-neumorphic)" }}
+        className="flex flex-col md:flex-row w-full max-w-4xl min-h-[520px] rounded-2xl overflow-hidden"
+        style={{ boxShadow: "0 25px 60px -12px rgba(0,0,0,0.7)" }}
       >
         {/* Left — brand panel */}
-        <div className="w-1/2">
+        <div className="w-full md:w-[45%]">
           <BrandPanel />
         </div>
 
         {/* Right — login form */}
-        <div className="w-1/2">
+        <div className="w-full md:w-[55%]">
           <LoginForm />
         </div>
       </div>

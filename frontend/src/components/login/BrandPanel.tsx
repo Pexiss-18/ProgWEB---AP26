@@ -46,20 +46,28 @@ export default function BrandPanel() {
       />
 
       {/* Planet icon */}
-      <PlanetIcon />
+      <div style={{ filter: "drop-shadow(0 0 12px rgba(201,168,76,0.4))" }}>
+        <PlanetIcon />
+      </div>
+
+      {/* Decorative line above name */}
+      <div className="mt-6 w-12 h-px bg-ag-gold opacity-40" aria-hidden="true" />
 
       {/* Brand name */}
-      <div className="mt-8 flex flex-col items-center gap-1 select-none">
-        <p className="tracking-[0.35em] text-sm font-light uppercase text-ag-gold">
-          M A R L O N
+      <div className="mt-3 flex flex-col items-center gap-1 select-none">
+        <p
+          className="text-sm font-light uppercase bg-gradient-to-r from-ag-gold to-ag-gold-light bg-clip-text text-transparent"
+          style={{ letterSpacing: "0.4em" }}
+        >
+          Marlon Barber
         </p>
-        <p className="tracking-[0.3em] text-xs font-light uppercase text-ag-gold opacity-80">
-          B A R B E R
+        <p className="mt-2 text-[9px] tracking-[0.3em] uppercase text-ag-sepia">
+          Est. 2024 — Premium Grooming
         </p>
       </div>
 
-      {/* Thin separator line */}
-      <div className="mt-4 w-16 h-px bg-ag-gold opacity-30" aria-hidden="true" />
+      {/* Decorative line below name */}
+      <div className="mt-3 w-12 h-px bg-ag-gold opacity-40" aria-hidden="true" />
     </div>
   );
 }

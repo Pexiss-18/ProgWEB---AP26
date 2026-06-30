@@ -1,5 +1,6 @@
 "use client";
 
+import { User, Lock } from "lucide-react";
 import { HttpClient } from "@/infrastructure/http/HttpClient";
 import { HttpAdminRepository } from "@/infrastructure/repositories/HttpAdminRepository";
 import { LocalStorageTokenStorage } from "@/infrastructure/storage/LocalStorageTokenStorage";
@@ -25,81 +26,100 @@ export default function LoginForm() {
   return (
     <div
       className="relative flex flex-col justify-center w-full h-full px-10 py-12"
-      style={{
-        background: "linear-gradient(145deg, #FFE0B2 0%, #FFF2DF 100%)",
-      }}
+      style={{ background: "#f5ede0" }}
     >
       {/* Header */}
-      <div className="mb-10">
+      <div className="mb-8">
         <h2
-          className="text-2xl font-light tracking-widest text-ag-dark"
-          style={{ letterSpacing: "0.2em" }}
+          className="text-[2rem] text-[#1a0e08]"
+          style={{ fontFamily: "var(--font-playfair)" }}
         >
           Bem-vindo
         </h2>
-        <div className="mt-2 w-8 h-px bg-ag-gold" aria-hidden="true" />
+        <p className="mt-1 text-[11px] text-[#7a6a58]">
+          Entre com suas credenciais
+        </p>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSignIn} className="flex flex-col gap-8" noValidate>
+      <form onSubmit={handleSignIn} className="flex flex-col gap-5" noValidate>
         {/* Username field */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <label
             htmlFor="ag-username"
-            className="text-[10px] tracking-[0.2em] uppercase text-ag-sepia"
+            className="text-[10px] tracking-[0.15em] uppercase text-[#5a4a3a]"
           >
             Username
           </label>
-          <input
-            id="ag-username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-            className="bg-transparent border-0 border-b border-ag-beige outline-none text-ag-dark placeholder-ag-sepia/40 text-sm py-2 transition-colors focus:border-ag-gold"
-            placeholder="seu usuário"
-          />
+          <div className="relative">
+            <User
+              size={16}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#5a4a3a]/60"
+              aria-hidden="true"
+            />
+            <input
+              id="ag-username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
+              className="w-full rounded-lg pl-10 pr-4 py-3 text-sm text-[#1a0e08] placeholder-[#5a4a3a]/40 outline-none transition-colors focus:outline-2 focus:outline-[#c9a84c]"
+              style={{ background: "#ede5d8", border: "1px solid #c4b49a" }}
+              placeholder="seu usuário"
+            />
+          </div>
         </div>
 
         {/* Password field */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <label
             htmlFor="ag-password"
-            className="text-[10px] tracking-[0.2em] uppercase text-ag-sepia"
+            className="text-[10px] tracking-[0.15em] uppercase text-[#5a4a3a]"
           >
             Password
           </label>
-          <input
-            id="ag-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            className="bg-transparent border-0 border-b border-ag-beige outline-none text-ag-dark placeholder-ag-sepia/40 text-sm py-2 transition-colors focus:border-ag-gold"
-            placeholder="••••••••"
-          />
+          <div className="relative">
+            <Lock
+              size={16}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#5a4a3a]/60"
+              aria-hidden="true"
+            />
+            <input
+              id="ag-password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              className="w-full rounded-lg pl-10 pr-4 py-3 text-sm text-[#1a0e08] placeholder-[#5a4a3a]/40 outline-none transition-colors focus:outline-2 focus:outline-[#c9a84c]"
+              style={{ background: "#ede5d8", border: "1px solid #c4b49a" }}
+              placeholder="••••••••"
+            />
+          </div>
         </div>
 
         {/* Error message */}
-        {error && (
-          <p className="text-xs text-red-600 -mt-4">{error}</p>
-        )}
+        {error && <p className="text-xs text-red-600">{error}</p>}
 
         {/* Buttons */}
         <div className="flex flex-col gap-3 mt-2">
-          {/* Sign In — more prominent */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 border border-ag-gold text-ag-gold text-[11px] tracking-[0.25em] uppercase bg-transparent transition-colors hover:bg-ag-gold/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="skeuo-btn w-full rounded-lg py-3.5 text-[11px] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Entrando..." : "Sign In"}
           </button>
 
-          {/* Sign Up — slightly smaller */}
+          {/* Separator */}
+          <div className="flex items-center gap-3 my-1">
+            <div className="flex-1 h-px bg-[#c4b49a]" aria-hidden="true" />
+            <span className="text-[10px] uppercase tracking-[0.15em] text-[#7a6a58]">ou</span>
+            <div className="flex-1 h-px bg-[#c4b49a]" aria-hidden="true" />
+          </div>
+
           <button
             type="button"
-            className="w-full py-2 border border-ag-gold text-ag-gold text-[10px] tracking-[0.2em] uppercase bg-transparent transition-colors hover:bg-ag-gold/10"
+            className="w-full py-3 rounded-lg border border-[#8b1a1a] text-[#8b1a1a] text-[10px] tracking-[0.2em] uppercase bg-transparent transition-colors hover:bg-[#8b1a1a]/8"
           >
             Sign Up
           </button>
@@ -109,28 +129,12 @@ export default function LoginForm() {
         <div className="text-center mt-1">
           <button
             type="button"
-            className="text-[9px] tracking-[0.2em] uppercase text-ag-sepia/70 hover:text-ag-sepia transition-colors"
+            className="text-[10px] text-[#7a6a58] hover:underline transition-colors"
           >
             Forgot Password?
           </button>
         </div>
       </form>
-
-      {/* Globe icon — bottom corner */}
-      <div className="absolute bottom-6 right-8 text-ag-sepia/40" aria-hidden="true">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1"
-          className="w-5 h-5"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <ellipse cx="12" cy="12" rx="4" ry="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <line x1="12" y1="2" x2="12" y2="22" />
-        </svg>
-      </div>
     </div>
   );
 }
